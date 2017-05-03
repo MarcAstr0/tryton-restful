@@ -15,7 +15,7 @@ import simplejson as json
 from trytond import backend, security
 from trytond.pool import Pool
 from trytond.cache import Cache
-from trytond.config import CONFIG
+from trytond.config import config as CONFIG
 from trytond.exceptions import UserError
 from trytond.transaction import Transaction
 

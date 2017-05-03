@@ -6,7 +6,7 @@
     :license: BSD, see LICENSE for more details.
 """
 import click
-from trytond.config import CONFIG
+from trytond.config import config as CONFIG
 
 
 @click.command()
