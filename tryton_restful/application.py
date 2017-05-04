@@ -105,14 +105,13 @@ def transaction(function):
     def wrapper(database, *args, **kwargs):
         DatabaseOperationalError = backend.get('DatabaseOperationalError')
 
-        Cache.clean(database)
-
         # Intialise the pool. The init method is smart enough not to
         # reinitialise if it is already initialised.
         Pool(database).init()
 
         # get the context from the currently logged in user
         with Transaction().start(database, g.current_user, readonly=True):
+            Cache.clean(database)
             User = Pool().get('res.user')
             context = User.get_preferences(context_only=True)
 
@@ -128,6 +127,7 @@ def transaction(function):
                     result = function(*args, **kwargs)
                     if not readonly:
                         cursor.commit()
+                    Cache.resets(database)
                 except DatabaseOperationalError, exc:
                     cursor.rollback()
                     if count and not readonly:
@@ -150,7 +150,6 @@ def transaction(function):
                     if not (readonly or current_app.testing):
                         cursor.commit()
 
-            Cache.resets(database)
             return result
     return wrapper
 
