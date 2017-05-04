@@ -117,7 +117,7 @@ def transaction(function):
 
         readonly = request.method == 'GET'
 
-        for count in range(int(CONFIG['retry']), -1, -1):
+        for count in range(int(CONFIG.get('database', 'retry')), -1, -1):
             with Transaction().start(
                     database, g.current_user,
                     readonly=readonly,
