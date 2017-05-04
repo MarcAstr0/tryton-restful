@@ -11,7 +11,7 @@ requires = [
 
 setup(
     name="tryton-restful",
-    version=0.1,
+    version="0.1-SNAPSHOT",
     description="REST API to access Tryton modules",
     long_description=open('README.rst').read(),
     author="Openlabs Technologies and Consulting (P) Ltd.",
