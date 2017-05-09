@@ -17,7 +17,9 @@ from trytond.config import config as CONFIG
 @click.option(
     '--threaded/--not-threaded', default=True,
     help="should the process handle each request in a separate thread?")
-def run(config, host, port, debug, threaded):
+@click.option('--ssl_crt', help='Path to SSL certificate')
+@click.option('--ssl_key', help='Path to SSL key')
+def run(config, host, port, debug, threaded, ssl_crt, ssl_key):
     """
     Runs the application on a local development server.
     """
@@ -27,8 +29,14 @@ def run(config, host, port, debug, threaded):
     if hasattr(CONFIG, 'set_timezone'):
         CONFIG.set_timezone()
 
+    if ssl_crt and ssl_key:
+        ssl_context = (ssl_crt, ssl_key)
+
     from application import app
-    app.run(host, port, debug=debug, threaded=threaded)
+    if ssl_context:
+        app.run(host, port, debug=debug, threaded=threaded, ssl_context=ssl_context)
+    else:
+        app.run(host, port, debug=debug, threaded=threaded)
 
 
 def main():
