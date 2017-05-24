@@ -31,6 +31,8 @@ def run(config, host, port, debug, threaded, ssl_crt, ssl_key):
 
     if ssl_crt and ssl_key:
         ssl_context = (ssl_crt, ssl_key)
+    else:
+        ssl_context = False
 
     from application import app
     if ssl_context:

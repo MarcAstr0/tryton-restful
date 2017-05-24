@@ -200,7 +200,7 @@ def collection(model):
         per_page = request.args.get('per_page', 10, type=int)
 
         offset = (page - 1) * per_page
-        limit = per_page
+        limit = None
 
         order = None
         if 'order' in request.args:
